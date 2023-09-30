@@ -1,1 +1,221 @@
-sn://config?eNrdWE9v40QUDxKnforK58axHedfT8BSxIoVoG73hJA19jwno3U83vG4TYAeKiROSHwFJA4r4ID2tBz4IAVuXDit-Aq8mTj2JHbbtNuVEI3kNG_evPfmze_95o07nU7H9Ua2g58X47c7-u_vh1_u7e9bNM2tw331L_6IyVNgWfUbJZCSMAGKIikKOFiLWQrSDwRJp4BDljsZ2-5Y2e-5A2tDa1hrxZHjHB723LGlFc5XeqhFIQN8pDKISDSDDWeWKBJQIX5WWl2HhkOkkLOgyEEYw9U61MIq2ecH9SzUP9VT1Nq7AuZcwlrz_KDphfI5YWmQF3HMFtuebCZ28UKZgEhe64XlKtMtGSiTFPIipdvuZZF2WbpLBCollf89Q7fUuyrFlArI1aA1kzLLD3s9tGaHTFKI1aYJGzdZybrPChBL66AxN8AHT5rJMEOVgkiYLpUGy079gKfJhilJprtv2JuIOeERSUxFCpIXq-HXWs7NyDCWc6soDCerebv5EBGngCnLiyhSonaLIZp8uqPFklXumKAW4O6VLi1YZCDYHJkDl1exWJSQfBaQjJlEpusqiFmiqci2e1rQ07o2DWvSgoUEkZIkiHgqBU-SFQjW_OkeTpyJ06JesNKw8pH3liSiJc9V4ZZFXJdaFV3CcgmpMuBoL4aD1VCQcSFxfOgPnGqII0AFoxAYyR7b-mM1lUoLg341ZGQZSaQWLzMwIGWSdRXwmhSNjTRyktKMM6Rzk9pTIttPkTr4mtosd-TZ7kTlu-eN19tfsZuVpyyOt81pYVCtl0IuGXplXCU2JkluqEqC8MWg8yVmd25tp6Tk1UZKUH6HfOy8u54zdu5tjeVS5mwBtHUxeqTGqM4uUsy0rqQETiFZlbBcEcgKyLyQVyG59JoJvlg2XeaQIKS4MODZMKXFT44fdU-OHp_sf7V_-eLy-Z_f_vHL5fPfvzE5wpSj2smThw_w650PIWGL4PHqUEPB-0evvv_t1csf9fMnFDj__PrdX1__4K6-drDIsIOJMhacZin-_OBYW_pZP1827a2x2gqTMjs3ra7KVyESiVt8Y7r-47mowsf1mMfy2dmZPcValCyyIz7vTSEFVUCB5_hmG4kUe6oZ3hqYtcqRmzEclamBc12-7zk9Bh2wqJbWDZfbn9iu79ujke25zrbGutp9v6biomCqubMmw-GYOP6o640g7vokgm44HMddCPv-JPSGPh0Oa3sZyfMzLvRMz50MKPjUc6KRA7ERFx5kU8UTPF2faUo_DI0qLGiGLU9ClsEcT381_GxjaV-A4IGQMpgRxN5MHcnbdDMDImQImuUt16kbBwtZHoPUdCujzMhikhsn9JWXDaM5RvZrDpZJTckcNmhXIyeHqBDrfnqji7gdVG6H-52BouQ-tdEydkB4HGIV3AYtPnX9cBC7iJGQIlr6TnfsAum6k5i41B8NJ5O4HS3x-N339o8-9j7ts5iH5KNPHhyz10SMOoZO4f-EmY1gVU-bZOn2DWzWNyYryxld9vq2a9zJdoHdVvu-Uw9WTg2XamPvNlV38Y2ZRnN_VbjYMuJR1OJ0feuuOwqBilD3FHhp59i3SIwt0Mwek2j3K__6_GsLQkF8VSvmDg36zZ1oua9cccEue-PWC3ZbLHd9j3DVawTTR7nR17iYAtevb96AaZYFEaONNy2e569a2t5WHcSxftkz3sH3BghVCeGVNoLgHjw2r4175291Op2Li4t_AeaSMjU
+{
+  "dns": {
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
+    },
+    "independent_cache": true,
+    "rules": [
+      {
+        "auth_user": [
+          "fakedns"
+        ],
+        "server": "dns-remote"
+      },
+      {
+        "domain_suffix": [
+          ".ir"
+        ],
+        "server": "dns-direct"
+      },
+      {
+        "disable_cache": true,
+        "inbound": [
+          "tun-in"
+        ],
+        "server": "dns-fake"
+      }
+    ],
+    "servers": [
+      {
+        "address": "https://dns.bitdefender.net/dns-query",
+        "address_resolver": "dns-direct",
+        "strategy": "ipv4_only",
+        "tag": "dns-remote"
+      },
+      {
+        "address": "https://dns.bitdefender.net/dns-query",
+        "address_resolver": "dns-local",
+        "detour": "direct",
+        "strategy": "ipv4_only",
+        "tag": "dns-direct"
+      },
+      {
+        "address": "local",
+        "detour": "direct",
+        "tag": "dns-local"
+      },
+      {
+        "address": "rcode://success",
+        "tag": "dns-block"
+      },
+      {
+        "address": "fakeip",
+        "strategy": "ipv4_only",
+        "tag": "dns-fake"
+      }
+    ]
+  },
+  "experimental": {
+    "clash_api": {
+      "cache_file": "../cache/clash.db",
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "../files/yacd"
+    }
+  },
+  "inbounds": [
+    {
+      "listen": "0.0.0.0",
+      "listen_port": 6450,
+      "override_address": "8.8.8.8",
+      "override_port": 53,
+      "tag": "dns-in",
+      "type": "direct"
+    },
+    {
+      "domain_strategy": "",
+      "endpoint_independent_nat": true,
+      "inet4_address": [
+        "172.19.0.1/28"
+      ],
+      "sniff": true,
+      "sniff_override_destination": false,
+      "stack": "system",
+      "tag": "tun-in",
+      "type": "tun"
+    },
+    {
+      "domain_strategy": "",
+      "listen": "0.0.0.0",
+      "listen_port": 2080,
+      "sniff": true,
+      "sniff_override_destination": false,
+      "tag": "mixed-in",
+      "type": "mixed"
+    }
+  ],
+  "log": {
+    "level": "fatal"
+  },
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "type": "selector",
+      "outbounds": [
+        "URL-TEST | رایگان",
+        "رایگان | TUIC | @Helix_Servers | DE🇩🇪 | 0️⃣1️⃣",
+        "رایگان | TUIC | @irancpi_vpn | FR🇫🇷 | 0️⃣1️⃣"
+      ]
+    },
+    {
+      "tag": "URL-TEST | رایگان",
+      "type": "urltest",
+      "outbounds": [
+        "رایگان | TUIC | @Helix_Servers | DE🇩🇪 | 0️⃣1️⃣",
+        "رایگان | TUIC | @irancpi_vpn | FR🇫🇷 | 0️⃣1️⃣"
+      ],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "5m",
+      "tolerance": 50
+    },
+    {
+      "tag": "رایگان | TUIC | @Helix_Servers | DE🇩🇪 | 0️⃣1️⃣",
+      "type": "tuic",
+      "server": "139.144.77.210",
+      "server_port": 443,
+      "uuid": "9668a047-27ef-4ace-b68f-eb349b264d66",
+      "password": "2195de4d20c70efc",
+      "congestion_control": "bbr",
+      "udp_relay_mode": "quic",
+      "zero_rtt_handshake": false,
+      "heartbeat": "10s",
+      "network": "tcp",
+      "tls": {
+        "enabled": true,
+        "disable_sni": true,
+        "server_name": "",
+        "insecure": true
+      }
+    },
+    {
+      "tag": "رایگان | TUIC | @irancpi_vpn | FR🇫🇷 | 0️⃣1️⃣",
+      "type": "tuic",
+      "server": "tuic4d.cpionline.co",
+      "server_port": 443,
+      "uuid": "4d14b5f1-b6bd-4a30-81ea-19fa1d47699f",
+      "password": "f8AB EN2P3ifobaKOCRi",
+      "congestion_control": "bbr",
+      "udp_relay_mode": "native",
+      "zero_rtt_handshake": false,
+      "heartbeat": "10s",
+      "network": "tcp",
+      "tls": {
+        "enabled": true,
+        "disable_sni": true,
+        "server_name": "",
+        "insecure": false,
+        "alpn": [
+          "h3",
+          "spdy/3.1"
+        ]
+      }
+    },
+    {
+      "tag": "direct",
+      "type": "direct"
+    },
+    {
+      "tag": "bypass",
+      "type": "direct"
+    },
+    {
+      "tag": "block",
+      "type": "block"
+    },
+    {
+      "tag": "dns-out",
+      "type": "dns"
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "rules": [
+      {
+        "outbound": "dns-out",
+        "port": [
+          53
+        ]
+      },
+      {
+        "inbound": [
+          "dns-in"
+        ],
+        "outbound": "dns-out"
+      },
+      {
+        "domain_suffix": [
+          "ir"
+        ],
+        "outbound": "bypass"
+      },
+      {
+        "geoip": [
+          "ir"
+        ],
+        "outbound": "bypass"
+      },
+      {
+        "ip_cidr": [
+          "224.0.0.0/3",
+          "ff00::/8"
+        ],
+        "outbound": "block",
+        "source_ip_cidr": [
+          "224.0.0.0/3",
+          "ff00::/8"
+        ]
+      }
+    ]
+  }
+}
